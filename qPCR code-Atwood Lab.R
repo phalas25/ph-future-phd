@@ -5,6 +5,7 @@ library(pcr)
 library(ggplot2) 
 #this one does not seem to exist 
 library(cowplot) 
+#load remaining libraries 
 library(dplyr) 
 library(xtable) 
 library(readr) 
@@ -12,5 +13,5 @@ library(readr)
 qPCR_raw <- read.csv ("11_5_19_qPCR_raw.csv", header = TRUE)
 View(qPCR_raw)
 fl <- system.file('extdata', 'qPCR_raw', package = 'pcr') 
-print(fl)
+
 
