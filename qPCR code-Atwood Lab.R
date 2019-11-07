@@ -12,5 +12,5 @@ library(readr)
 qPCR_raw <- read.csv ("11_5_19_qPCR_raw.csv", header = TRUE)
 View(qPCR_raw)
 fl <- system.file('extdata', 'qPCR_raw', package = 'pcr') 
-
+print(fl)
 
