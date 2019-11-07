@@ -7,11 +7,10 @@ library(ggplot2)
 library(cowplot) 
 library(dplyr) 
 library(xtable) 
-library(readr)    
-qPCR_raw <- 11_5_19_qPCR_raw.xlsx
-head(qPCR_raw)
+library(readr) 
+#import and rename data set. Remember it needs to be in Git working directory! 
+qPCR_raw <- read.csv ("11_5_19_qPCR_raw.csv", header = TRUE)
+View(qPCR_raw)
+fl <- system.file('extdata', 'qPCR_raw', package = 'pcr') 
 
-print (qPCR_raw)
-fl <- system.file('extdata', '11_5_19_qPCR_raw.xlsx', package = 'pcr') 
-print (fl)
 
