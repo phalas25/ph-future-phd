@@ -17,7 +17,7 @@ View(qPCR_raw)
 class(qPCR_raw)
 colnames(qPCR_raw)
 qPCR_trim <- select(qPCR_raw, 'Sample Name', 'Target Name', 'Cт')%>%
-  group_by(`Target Name`, `Sample Name`)
+  group_by(`Target Name`)
 View(qPCR_trim)
 
 
