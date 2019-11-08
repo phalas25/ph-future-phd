@@ -14,12 +14,13 @@ library(sqldf)
 #import and rename data set. Remember it needs to be in Git working directory! 
 qPCR_raw <- read.csv ("11_5_19_qPCR_raw.csv", header = TRUE)
 View(qPCR_raw)
-qPCR_trim <- select(qPCR_raw, 'Sample Name', 'Target Name', starts_with('CT'))
+class(qPCR_raw)
+colnames(qPCR_raw)
+qPCR_trim <- select(qPCR_raw, 'Sample Name', 'Target Name', 'Cт')%>%
+  group_by(`Target Name`, `Sample Name`)
 View(qPCR_trim)
-qPCR <- qPCR_trim 
-sqldf("SELECT SampleName, TargetName, CT FROM qPCR")
 
- 
+
  
   
 
