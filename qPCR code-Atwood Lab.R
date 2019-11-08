@@ -16,8 +16,10 @@ qPCR_raw <- read.csv ("11_5_19_qPCR_raw.csv", header = TRUE)
 View(qPCR_raw)
 class(qPCR_raw)
 colnames(qPCR_raw)
+#rename column names 
+#specify input: what well is what conditions
 qPCR_trim <- select(qPCR_raw, 'Sample Name', 'Target Name', 'Cт')%>%
-  group_by(`Target Name`)
+  group_by(Target Name)
 View(qPCR_trim)
 
 
