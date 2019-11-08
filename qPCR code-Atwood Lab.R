@@ -9,6 +9,8 @@ library(cowplot)
 library(dplyr) 
 library(xtable) 
 library(readr) 
+install.packages('sqldf')
+library(sqldf)
 #import and rename data set. Remember it needs to be in Git working directory! 
 qPCR_raw <- read.csv ("11_5_19_qPCR_raw.csv", header = TRUE)
 View(qPCR_raw)
