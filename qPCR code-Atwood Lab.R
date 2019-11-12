@@ -72,5 +72,17 @@ Stacked = rbind(wt,bcc)
 #Create fold change column with calculation based on DeltaDeltaCT
 Stacked['Fold Change'] = 2**(-1*Stacked$DeltaDeltaCT) 
 
+#Generate table with just sample name and fold change to plot
+Fold_Change <- select(Stacked, "Sample.Name", "Fold Change") 
 
+#plot Fold Change versus sample name using ggplot
+install.packages("ggplot2")
+library(ggplot2)
+#Plot graph
+Plot <- ggplot() + geom_col(data = Fold_Change, aes(x = Fold_Change$Sample.Name, y = Fold_Change$`Fold Change`, fill = Fold_Change$Sample.Name))
+#Add titles to axis as well as graph 
+Plot <- Plot + ggtitle("Plot of GLI1 Fold Change") +
+  xlab("Sample Name") + ylab("Fold Change")
+Plot_classic <- theme_classic()
+Plot_classic <- element_text(size = 6)
 
