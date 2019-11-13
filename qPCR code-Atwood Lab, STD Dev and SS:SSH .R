@@ -50,7 +50,7 @@ Merged['DeltaCT'] = Merged$avgCт.x - Merged$avgCт.y
 Merged$Sample.Name <- as.character(Merged$Sample.Name)
 
 #Filter based on 3T3SS and 3T3SSH and not BCCSS
-Merged %>% filter(grepl('3T3 SS', Sample.Name)) -> wtss
+Merged %>% filter(grepl('\\b3T3 SS\\b', Sample.Name)) -> wtss
 Merged %>% filter(grepl('3T3 SSH', Sample.Name)) -> wtssh
 Merged %>% filter(grepl('BCC SS', Sample.Name)) -> bccss
 
