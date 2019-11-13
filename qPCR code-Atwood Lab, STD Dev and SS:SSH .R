@@ -6,7 +6,7 @@ library(dplyr)
 library(xtable) 
 library(readr) 
 #import and rename data set. Remember it needs to be in Git working directory! 
-qPCR_raw <- read.csv ("11_5_19_qPCR_raw_1.csv", header = TRUE)
+qPCR_raw <- read.csv ("11_11_paige_qPCR_Zinc_Treated.csv", header = TRUE)
 colnames(qPCR_raw)
 
 #rename column names
@@ -49,19 +49,24 @@ Merged['DeltaCT'] = Merged$avgCт.x - Merged$avgCт.y
 Merged$Sample.Name <- as.character(Merged$Sample.Name)
 
 #Filter based on 3T3 and not 3T3
-Merged %>% filter(grepl('3T3', Sample.Name)) -> wt
-Merged %>% filter(grepl('BCC', Sample.Name)) -> bcc
+Merged %>% filter(grepl('3T3 SS', Sample.Name)) -> wtss
+Merged %>% filter(grepl('3T3 SSH', Sample.Name)) -> wtssh
+Merged %>% filter(grepl('BCC SS', Sample.Name)) -> bccss
 
-#Get 0 um value to subtract from all samples of bcc
-subtract_me = bcc[1,6]
-bcc['DeltaDeltaCT'] = bcc$DeltaCT - subtract_me
+#Get 0 um value to subtract from all samples of bcc serum starved 
+subtract_me = bccss[1,6]
+bccss['DeltaDeltaCT'] = bccss$DeltaCT - subtract_me
 
-#Get 0 um value to subtract from all samples of wt
-subtract_me = wt[1,6]
-wt['DeltaDeltaCT'] = wt$DeltaCT - subtract_me
+#Get 0 um value to subtract from all samples of wt serum starved 
+subtract_me = wtss[1,6]
+wtss['DeltaDeltaCT'] = wtss$DeltaCT - subtract_me
+
+#Get 0 um value to subtract from all samples of wt serum starved 
+subtract_me = wtssh[1,6]
+wtssh['DeltaDeltaCT'] = wtssh$DeltaCT - subtract_me
 
 #Stack wt and bcc on top of each other
-Stacked = rbind(wt,bcc)
+Stacked = rbind(wtss,wtssh,bccss)
 
 #Create fold change column with calculation based on DeltaDeltaCT
 Stacked['Fold Change'] = 2**(-1*Stacked$DeltaDeltaCT) 
