@@ -1,3 +1,4 @@
+rm(list = ls(all.names = TRUE))
 #load necessary libraries 
 library(ggplot2) 
 #this one does not seem to exist 
@@ -26,7 +27,7 @@ qPCR_cut$Cт <- as.numeric(as.character(qPCR_cut$Cт))
 qPCR_cut$Cт
 
 #filter by gli and GAPDH
-qPCR_cut %>% filter(Target.Name == "Gli1") -> qPCR_Gli1
+qPCR_cut %>% filter(Target.Name == "GLI1") -> qPCR_Gli1
 qPCR_cut %>% filter(Target.Name == "GAPDH")-> qPCR_Gapdh
 
 #Take avg of CT for each group
@@ -48,7 +49,7 @@ Merged['DeltaCT'] = Merged$avgCт.x - Merged$avgCт.y
 #Change Sample.Name column to string
 Merged$Sample.Name <- as.character(Merged$Sample.Name)
 
-#Filter based on 3T3 and not 3T3
+#Filter based on 3T3SS and 3T3SSH and not BCCSS
 Merged %>% filter(grepl('3T3 SS', Sample.Name)) -> wtss
 Merged %>% filter(grepl('3T3 SSH', Sample.Name)) -> wtssh
 Merged %>% filter(grepl('BCC SS', Sample.Name)) -> bccss
