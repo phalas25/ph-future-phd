@@ -1,16 +1,10 @@
-#install qPCR analysis tool from CRAN
-install.packages('pcr')  
 #load necessary libraries 
-library(pcr) 
 library(ggplot2) 
 #this one does not seem to exist 
-library(cowplot) 
 #load remaining libraries 
 library(dplyr) 
 library(xtable) 
 library(readr) 
-install.packages('sqldf')
-library(sqldf)
 #import and rename data set. Remember it needs to be in Git working directory! 
 qPCR_raw <- read.csv ("11_5_19_qPCR_raw_1.csv", header = TRUE)
 colnames(qPCR_raw)
@@ -82,7 +76,9 @@ library(ggplot2)
 Plot <- ggplot() + geom_col(data = Fold_Change, aes(x = Fold_Change$Sample.Name, y = Fold_Change$`Fold Change`, fill = Fold_Change$Sample.Name))
 #Add titles to axis as well as graph 
 Plot <- Plot + ggtitle("Plot of GLI1 Fold Change") +
-  xlab("Sample Name") + ylab("Fold Change")
-Plot_classic <- theme_classic()
-Plot_classic <- element_text(size = 6)
+  xlab("Sample Name") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + theme(axis.text.x = element_text(size=6, angle=90),
+                                                                                                   axis.title=element_text(size=12,face="bold"))
+print(Plot)
+
+
 
