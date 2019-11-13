@@ -38,7 +38,7 @@ qPCR_Gli1 %>%
 qPCR_Gapdh %>% 
   group_by(Sample.Name,Target.Name) %>% 
   summarise(avgCт = mean(Cт)) -> GAPDH
-                                                                                                       
+
 #Merge Gli and GAPDH back together
 Merged = merge(Gli,GAPDH, by = "Sample.Name" )
 
@@ -89,6 +89,6 @@ Plot <- ggplot() + geom_col(data = Fold_Change, aes(x = Fold_Change$Sample.Name,
 #Add titles to axis as well as graph 
 Plot <- Plot + ggtitle("GLI1 Expression") +
   xlab("Sample Name") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + scale_fill_manual(values = c("red", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue")) +  theme(axis.text.x = element_text(size=10, angle=90),
-                                                                                                   axis.title=element_text(size=12,face="bold"))
+                                                                                                                                                                                                               axis.title=element_text(size=12,face="bold"))
 print(Plot)
 
