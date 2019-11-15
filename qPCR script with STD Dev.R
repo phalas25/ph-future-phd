@@ -41,6 +41,11 @@ qPCR_Gapdh %>%
   group_by(Sample.Name,Target.Name) %>% 
   summarise(avgCт = mean(Cт)) -> GAPDH
 
+#caclulate SD for Gli and GAPDH 
+qPCR_Gli1 %>% 
+  group_by(Sample.Name,Target.Name) %>% 
+  sd('Cт') -> GliSD
+
 #Merge Gli and GAPDH back together
 Merged = merge(Gli,GAPDH, by = "Sample.Name" )
 
