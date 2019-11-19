@@ -8,7 +8,9 @@ library(dplyr)
 library(xtable) 
 library(readr) 
 #import and rename data set. Remember it needs to be in Git working directory! 
-qPCR_raw <- read.csv ("11_11_paige_qPCR_Zinc_Treated.csv", header = TRUE)
+X11_18_Paige_DCAA_Combined <- read_excel("11_18_Paige_DCAA_Combined.csv")
+qPCR_raw <- X11_18_Paige_DCAA_Combined
+#qPCR_raw <- read.csv ("11_18_Paige_DCAA_Combined.csv", header = TRUE)
 colnames(qPCR_raw)
 
 #rename column names
@@ -80,7 +82,7 @@ Fold_Change <- select(Stacked, "Sample.Name", "Fold Change")
 #install.packages("ggplot2")
 library(ggplot2)
 #Plot graph and edit it so it is actually legible
-Fold_Change$Sample.Name <- factor(Fold_Change$Sample.Name, levels = c("3T3 0 uM Zinc", "3T3 3.4 uM Zinc", "3T3 4.8 uM Zinc", "3T3 6.9 uM Zinc", "3T3 10 uM Zinc", "BCC 0 uM Zinc", "BCC 3.4 uM Zinc", "BCC 4.8 uM Zinc", "BCC 6.9 uM Zinc", "BCC 10 uM Zinc"))
+Fold_Change$Sample.Name <- factor(Fold_Change$Sample.Name, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "3T3 SSH 80 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA", "BCC SS 80 mM DCAA"))
 print(Fold_Change)
 Plot <- ggplot() + geom_col(data = Fold_Change, aes(x = Fold_Change$Sample.Name, y = Fold_Change$`Fold Change`, fill = Fold_Change$Sample.Name))
 #Add titles to axis as well as graph 
@@ -90,12 +92,12 @@ Plot <- Plot + ggtitle("GLI1 Expression") +
 print(Plot)
 #Plot with color change by cell type 
 Fold_Change <- select(Stacked, "Sample.Name", "Fold Change") 
-Fold_Change$Sample.Name <- factor(Fold_Change$Sample.Name, levels = c("3T3 0 uM Zinc", "3T3 3.4 uM Zinc", "3T3 4.8 uM Zinc", "3T3 6.9 uM Zinc", "3T3 10 uM Zinc", "BCC 0 uM Zinc", "BCC 3.4 uM Zinc", "BCC 4.8 uM Zinc", "BCC 6.9 uM Zinc", "BCC 10 uM Zinc"))
+Fold_Change$Sample.Name <- factor(Fold_Change$Sample.Name, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 80 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
 print(Fold_Change)
 Plot <- ggplot() + geom_col(data = Fold_Change, aes(x = Fold_Change$Sample.Name, y = Fold_Change$`Fold Change`, fill = Fold_Change$Sample.Name))
 #Add titles to axis as well as graph 
 Plot <- Plot + ggtitle("GLI1 Expression") +
-  xlab("Sample Name") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + scale_fill_manual(values = c("red", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue")) +  theme(axis.text.x = element_text(size=10, angle=90),
+  xlab("Sample Name") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + scale_fill_manual(values = c("red", "red", "red", "red", "red","red", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue")) +  theme(axis.text.x = element_text(size=10, angle=90),
                                                                                                                                                                                                                axis.title=element_text(size=12,face="bold"))
 print(Plot)
 
