@@ -41,20 +41,32 @@ qPCR_cut %>% filter(grepl('BCC', Sample.Name)) -> qPCR_bcc
 #Take avg of RQ for each group
 #qPCR_cut$AverageRQ <- NA
 #print(qPCR_cut)
-colnames(wt)
+colnames(qPCR_wt)
 qPCR_wt %>% 
   group_by(Sample.Name) %>%
-  summarise(avgRQ = mean(RQ)) -> AverageWT
+  summarise(avgRQ = mean(RQ, na.rm = TRUE)) -> AverageWT
 
 qPCR_bcc %>% 
   group_by(Sample.Name) %>%
-  summarise(avgRQ = mean(RQ)) -> AverageBCC 
+  summarise(avgRQ = mean(RQ, na.rm = TRUE)) -> AverageBCC 
+
+colnames(AverageWT)
+colnames(AverageBCC)
 
 #Merge back together 
-Merged = merge(AverageWT,AverageBCC, by = "Sample.Name")
+Merged = rbind(AverageWT, AverageBCC)
+
+#Put Averages and RQ Min and Max from original plot on one graph 
+C <- merge(Merged, qPCR_cut, by = "Sample.Name")
+
+#Remove NA 
+C_Num <- na.omit(C)
+
+#Name Merged plot
+qPCR_DCAA <- C_Num
 
 #Generate Basic Plot
-Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$`Sample Name`, y = qPCR_DCAA$`Average RQ`, fill = qPCR_DCAA$`Sample Name`))
+Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$Sample.Name, y = qPCR_DCAA$avgRQ, fill = qPCR_DCAA$Sample.Name))
 print(Plot)
 
 #Add titles to axis as well as graph 
