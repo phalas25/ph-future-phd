@@ -5,6 +5,8 @@ qPCR_DCAA <- X11_18_DCAA
 #Check that the file is correct
 print(qPCR_DCAA)
 
+
+
 #Generate Basic Plot
 Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$`Sample Name`, y = qPCR_DCAA$`Average RQ`, fill = qPCR_DCAA$`Sample Name`))
 print(Plot)
@@ -57,5 +59,3 @@ print(Plot)
 #Add the RQ Max and Min to the graph (for rearrange and color)
 Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$`Sample Name`, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
 print(Plot_SD)
-
-
