@@ -3,8 +3,11 @@ rm(list = ls(all.names = TRUE))
 #load packages for graphing
 library(RColorBrewer)
 library(ggplot2) 
+library(dplyr)
 
 #Import Excel data and then rename the file to something simpler
+X11_18_DCAA_Combo <- read_excel("11_18_DCAA_Combo.xlsx")
+View(X11_18_DCAA_Combo)
 qPCR_raw <- X11_18_DCAA_Combo
 
 #Check that the file is correct
@@ -25,19 +28,30 @@ qPCR_c1 = qPCR_c [1: (nrow(qPCR_c)-5),]
 #make a new table with Sample Name, RQ, RQ Min and RQ Max
 colnames(qPCR_c1)
 qPCR_c2 = qPCR_c1 [, 1:10]
-qPCR_cut <- select(qPCR_c2, "Sample.Name", "RQ", "RQ Min", "RQ Max") 
+qPCR_cut <- select(qPCR_c2, "Sample.Name", 'RQ', "RQ Min", "RQ Max") 
+print(qPCR_cut)
+sapply(qPCR_cut, class)
 qPCR_cut$RQ <- as.numeric(as.character(qPCR_cut$RQ))
-qPCR_cut$RQ
+qPCR_cut$Sample.Name <- as.factor(qPCR_cut$Sample.Name)
+sapply(qPCR_cut, class)
 
-#Take avg of CT for each group
-qPCR_cut %>% 
-  group_by(Sample.Name) %>% 
-  summarise(avgRQ = mean(RQ)) -> qPCR_cut$AverageRQ
+qPCR_cut %>% filter(grepl('3T3', Sample.Name)) -> qPCR_wt
+qPCR_cut %>% filter(grepl('BCC', Sample.Name)) -> qPCR_bcc
 
+#Take avg of RQ for each group
+#qPCR_cut$AverageRQ <- NA
+#print(qPCR_cut)
+colnames(wt)
+qPCR_wt %>% 
+  group_by(Sample.Name) %>%
+  summarise(avgRQ = mean(RQ)) -> AverageWT
 
-#filter by gli and GAPDH
-qPCR_cut %>% filter(Sample.Name == "3T3") -> qPCR_WT
-qPCR_cut %>% filter(Sample.Name == "BCC")-> qPCR_BCC
+qPCR_bcc %>% 
+  group_by(Sample.Name) %>%
+  summarise(avgRQ = mean(RQ)) -> AverageBCC 
+
+#Merge back together 
+Merged = merge(AverageWT,AverageBCC, by = "Sample.Name")
 
 #Generate Basic Plot
 Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$`Sample Name`, y = qPCR_DCAA$`Average RQ`, fill = qPCR_DCAA$`Sample Name`))
