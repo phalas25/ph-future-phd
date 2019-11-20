@@ -7,6 +7,8 @@ library(dplyr)
 
 #Import Excel data and then rename the file to something simpler
 X11_18_DCAA_Combo <- read_excel("11_18_DCAA_Combo.xlsx")
+X11_18_DCAA_Combo <- read_excel("ph-future-phd/ph-future-phd/11_18_DCAA_Combo.xlsx")
+View(X11_18_DCAA_Combo)
 View(X11_18_DCAA_Combo)
 qPCR_raw <- X11_18_DCAA_Combo
 
@@ -63,7 +65,13 @@ C <- merge(Merged, qPCR_cut, by = "Sample.Name")
 C_Num <- na.omit(C)
 
 #Remove duplicates 
-C_Num_2 <- unique(C_Num)
+C_Num_2 <- distinct(C_Num)
+#Convert columns to numeric for RQ Min and RQ Max
+sapply(C_Num_2, class)
+C_Num_2$`RQ Min` <- as.numeric(as.character(C_Num_2$`RQ Min`))
+sapply(C_Num_2, class)
+C_Num_2$`RQ Max` <- as.numeric(as.character(C_Num_2$`RQ Max`))
+sapply(C_Num_2, class)
 
 #Name Merged plot
 qPCR_DCAA <- C_Num_2
@@ -78,16 +86,17 @@ Plot <- Plot + ggtitle("GLI1 Expression") +
 print(Plot)
 
 #Add the RQ Max and Min to the graph
-Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$`Sample Name`, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
+Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$Sample.Name, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
 print(Plot_SD)
-#this now does not work! ^^ 
+
 #Rearrange sample names if necessary
-qPCR_DCAA_2 <- select(qPCR_DCAA, qPCR_DCAA$Sample.Name, qPCR_DCAA$avgRQ) 
-qPCR_DCAA_2$`Sample Name` <- factor(qPCR_DCAA$`Sample Name`, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 80 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
+colnames(qPCR_DCAA)
+qPCR_DCAA_2 <- select(qPCR_DCAA, "Sample.Name", "avgRQ") 
+qPCR_DCAA_2$Sample.Name <- factor(qPCR_DCAA$Sample.Name, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 80 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
 print(qPCR_DCAA_2)
 
 #Generate Basic Plot with rearrange
-Plot <- ggplot() + geom_col(data = qPCR_DCAA_2, aes(x = qPCR_DCAA_2$`Sample Name`, y = qPCR_DCAA_2$`Average RQ`, fill = qPCR_DCAA_2$`Sample Name`))
+Plot <- ggplot() + geom_col(data = qPCR_DCAA_2, aes(x = qPCR_DCAA_2$Sample.Name, y = qPCR_DCAA_2$avgRQ, fill = qPCR_DCAA_2$Sample.Name))
 print(Plot)
 
 #Add titles to axis as well as graph (for rearrange)
@@ -96,7 +105,7 @@ Plot <- Plot + ggtitle("GLI1 Expression") +
 print(Plot)
 
 #Add the RQ Max and Min to the graph (for rearrange)
-Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$`Sample Name`, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
+Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$Sample.Name, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
 print(Plot_SD)
 
 #Generate new column in table based on cell type and color by it 
