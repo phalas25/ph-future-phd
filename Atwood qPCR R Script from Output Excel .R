@@ -80,7 +80,7 @@ print(Plot)
 #Add the RQ Max and Min to the graph
 Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$`Sample Name`, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
 print(Plot_SD)
-
+#this now does not work! ^^ 
 #Rearrange sample names if necessary
 qPCR_DCAA_2 <- select(qPCR_DCAA, qPCR_DCAA$Sample.Name, qPCR_DCAA$avgRQ) 
 qPCR_DCAA_2$`Sample Name` <- factor(qPCR_DCAA$`Sample Name`, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 80 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
