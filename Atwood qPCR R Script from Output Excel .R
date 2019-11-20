@@ -62,8 +62,11 @@ C <- merge(Merged, qPCR_cut, by = "Sample.Name")
 #Remove NA 
 C_Num <- na.omit(C)
 
+#Remove duplicates 
+C_Num_2 <- unique(C_Num)
+
 #Name Merged plot
-qPCR_DCAA <- C_Num
+qPCR_DCAA <- C_Num_2
 
 #Generate Basic Plot
 Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$Sample.Name, y = qPCR_DCAA$avgRQ, fill = qPCR_DCAA$Sample.Name))
@@ -79,7 +82,7 @@ Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$`Sampl
 print(Plot_SD)
 
 #Rearrange sample names if necessary
-qPCR_DCAA_2 <- select(qPCR_DCAA, "Sample Name", "Average RQ") 
+qPCR_DCAA_2 <- select(qPCR_DCAA, qPCR_DCAA$Sample.Name, qPCR_DCAA$avgRQ) 
 qPCR_DCAA_2$`Sample Name` <- factor(qPCR_DCAA$`Sample Name`, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 80 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
 print(qPCR_DCAA_2)
 
