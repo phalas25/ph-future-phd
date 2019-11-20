@@ -111,21 +111,23 @@ print(Plot_SD)
 #Generate new column in table based on cell type and color by it 
 qPCR_DCAA_2$CellType <- NA
 print(qPCR_DCAA_2)
-qPCR_DCAA_2$CellType <- as.numeric(grepl("3T3", qPCR_DCAA_2$`Sample Name`))
-print(qPCR_DCAA_2)
+sapply(qPCR_DCAA_2, class)
 qPCR_DCAA_2$CellType <- as.numeric(as.character(qPCR_DCAA_2$CellType))
-print(qPCR_DCAA_2) 
+sapply(qPCR_DCAA_2, class)
+qPCR_DCAA_2$CellType <- as.numeric(grepl("3T3", qPCR_DCAA_2$Sample.Name))
+print(qPCR_DCAA_2)
 
 #Generate Basic Plot with rearrange
-library(RColorBrewer)
-Plot <- ggplot() + geom_col(data = qPCR_DCAA_2, aes(x = qPCR_DCAA_2$`Sample Name`, y = qPCR_DCAA_2$`Average RQ`, fill = as.factor(qPCR_DCAA_2$CellType))) 
+Plot <- ggplot() + geom_col(data = qPCR_DCAA_2, aes(x = qPCR_DCAA_2$Sample.Name, y = qPCR_DCAA_2$avgRQ, fill = as.factor(qPCR_DCAA_2$CellType)))
 print(Plot)
 
-#Add titles to axis as well as graph as well as remove legend(for rearrange and color)
+#Add titles to axis, remove legend, as well as graph (for rearrange and color)
 Plot <- Plot + ggtitle("GLI1 Expression") +
-  xlab("Sample Name") + ylab("Fold Change") + theme_classic() + theme(axis.text.x = element_text(size=10, angle=90),axis.title=element_text(size=12,face="bold"), legend.position = "none") + geom_bar(fill = "red")
+  xlab("Sample Name") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + theme(axis.text.x = element_text(size=10, angle=90),axis.title=element_text(size=12,face="bold"), legend.position = "none") 
 print(Plot)
 
 #Add the RQ Max and Min to the graph (for rearrange and color)
-Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$`Sample Name`, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
+Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$Sample.Name, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
 print(Plot_SD)
+
+
