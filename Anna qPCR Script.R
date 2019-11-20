@@ -93,10 +93,9 @@ qPCR_DCAA <- C_Num_2
 colnames(qPCR_DCAA)
 
 
-
 #Follow the Below to Make a Basic Plot with Sample name versus RQ where the fill is based on Sample Name
 #Generate Basic Plot
-Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$Sample.Name, y = c(qPCR_DCAA$avgRQ), fill = qPCR_DCAA$Target.Name.x))+ geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$Target.Name.x, y = c(qPCR_DCAA$avgRQ), fill = qPCR_DCAA$Target.Name.x))
+Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$Target.Name.x, y = qPCR_DCAA$avgRQ, fill = qPCR_DCAA$Sample.Name)) + geom_bar(stat = "identity", width=.5, position = "dodge") 
 print(Plot)
 
 #Add titles to axis (and format them to be readable) as well as add title to graph 
