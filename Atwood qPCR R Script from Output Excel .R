@@ -1,11 +1,43 @@
+#clear current environment
 rm(list = ls(all.names = TRUE))
+#load packages for graphing
+library(RColorBrewer)
 library(ggplot2) 
+
 #Import Excel data and then rename the file to something simpler
-qPCR_DCAA <- X11_18_DCAA
+qPCR_raw <- X11_18_DCAA_Combo
+
 #Check that the file is correct
-print(qPCR_DCAA)
+print(qPCR_raw)
+
+#Look at current column names 
+colnames(qPCR_raw)
+
+#rename column names
+colnames(qPCR_raw) <- c("Well", "Sample.Name", "Target.Name", "Task", "Reporter", "Quencher", "RQ", "RQ Min", "RQ Max", "Cт")
+colnames(qPCR_raw)
+
+#cut out the first 6 rows and the last 5 rows that have no data
+qPCR_c = qPCR_raw [7: nrow(qPCR_raw),]
+head(qPCR_c)
+qPCR_c1 = qPCR_c [1: (nrow(qPCR_c)-5),]
+
+#make a new table with Sample Name, RQ, RQ Min and RQ Max
+colnames(qPCR_c1)
+qPCR_c2 = qPCR_c1 [, 1:10]
+qPCR_cut <- select(qPCR_c2, "Sample.Name", "RQ", "RQ Min", "RQ Max") 
+qPCR_cut$RQ <- as.numeric(as.character(qPCR_cut$RQ))
+qPCR_cut$RQ
+
+#Take avg of CT for each group
+qPCR_cut %>% 
+  group_by(Sample.Name) %>% 
+  summarise(avgRQ = mean(RQ)) -> qPCR_cut$AverageRQ
 
 
+#filter by gli and GAPDH
+qPCR_cut %>% filter(Sample.Name == "3T3") -> qPCR_WT
+qPCR_cut %>% filter(Sample.Name == "BCC")-> qPCR_BCC
 
 #Generate Basic Plot
 Plot <- ggplot() + geom_col(data = qPCR_DCAA, aes(x = qPCR_DCAA$`Sample Name`, y = qPCR_DCAA$`Average RQ`, fill = qPCR_DCAA$`Sample Name`))
