@@ -11,12 +11,11 @@ library(ggplot2)
 library(dplyr)
 
 #Import Excel data using import dataset on the right side of the screen, copy the way to read it from the console and then rename the file to something simpler
-X11_18_DCAA_Combo <- read_excel("11_18_DCAA_Combo.xlsx")
+X11_27_19_Zinc_Combo <- read_excel("11_27_19_Zinc_Combo.xlsx")
+View(X11_27_19_Zinc_Combo)
 #Paiges laptop location
 #X11_18_DCAA_Combo <- read_excel("ph-future-phd/ph-future-phd/11_18_DCAA_Combo.xlsx")
-View(X11_18_DCAA_Combo)
-View(X11_18_DCAA_Combo)
-qPCR_raw <- X11_18_DCAA_Combo
+qPCR_raw <- X11_27_19_Zinc_Combo
 
 #Check that the file is correct
 print(qPCR_raw)
@@ -99,7 +98,7 @@ print(Plot_SD)
 #Rearrange sample names if necessary
 colnames(qPCR_DCAA)
 qPCR_DCAA_2 <- select(qPCR_DCAA, "Sample.Name", "avgRQ") 
-qPCR_DCAA_2$Sample.Name <- factor(qPCR_DCAA$Sample.Name, levels = c("3T3 SS 0 mM DCAA", "3T3 SS 80 mM  DCAA", "3T3 SS 100 mM DCAA", "3T3 SS 126 mM DCAA", "3T3 SS 160 mM DCAA", "3T3 SSH 0 mM DCAA", "3T3 SSH 80 mM DCAA", "3T3 SSH 100 mM DCAA", "3T3 SSH 126 mM DCAA", "3T3 SSH 160 mM DCAA", "BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
+qPCR_DCAA_2$Sample.Name <- factor(qPCR_DCAA$Sample.Name, levels = c("3T3 SS 0 uM Zinc", "3T3 SS 3.4 uM Zinc", "3T3 SS 4.8 uM Zinc", "3T3 SS 6.9 uM Zinc", "3T3 SS 10 uM Zinc", "3T3 SSH 0 uM Zinc", "3T3 SSH 3.4 uM Zinc", "3T3 SSH 4.8 uM Zinc", "3T3 SSH 6.9 uM Zinc", "3T3 SSH 10 uM Zinc", "BCC SS  0 uM Zinc", "BCC SS 3.4 uM Zinc", "BCC SS 4.87 uM Zinc", "BCC SS 6.9 uM Zinc", "BCC SS 10 uM Zinc"))
 print(qPCR_DCAA_2)
 
 #Follow this if you needed to rearrange the sample names as above 
@@ -109,7 +108,7 @@ print(Plot)
 
 #Add titles to axis as well as graph (for rearrange)
 Plot <- Plot + ggtitle("GLI1 Expression") +
-  xlab("Concentration DCAA") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + theme(axis.text.x = element_text(size=10, angle=90),axis.title=element_text(size=12,face="bold")) 
+  xlab("Concentration Zinc05007751") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + theme(axis.text.x = element_text(size=10, angle=90),axis.title=element_text(size=12,face="bold")) 
 print(Plot)
 
 #Add the RQ Max and Min to the graph (for rearrange)
@@ -131,15 +130,15 @@ Plot <- ggplot() + geom_col(data = qPCR_DCAA_2, aes(x = qPCR_DCAA_2$Sample.Name,
 print(Plot)
 
 #Add titles to axis, remove legend, as well as title graph (for rearrange and color)
-Plot <- Plot + theme_classic() + ggtitle("GLI1 Expression with PDHK Inhibitor") + theme(plot.title = element_text(hjust = 0.5)) +
-  xlab("Concentration Dichloroacetic Acid") + ylab("Fold Change") + labs(fill = "Sample Name") + theme(axis.text.x = element_text(size=10, angle=90), axis.title=element_text(size=12,face="bold")) 
+Plot <- Plot + theme_classic() + ggtitle("GLI1 Expression with NEK1 Inhibitor") + theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("Concentration Zinc05007751") + ylab("Fold Change") + labs(fill = "Sample Name") + theme(axis.text.x = element_text(size=10, angle=90), axis.title=element_text(size=12,face="bold")) 
 print(Plot)
 
 #Add the RQ Max and Min to the graph (for rearrange and color)
 Plot_SD <- Plot + geom_errorbar(data = qPCR_DCAA, mapping=aes(x=qPCR_DCAA$Sample.Name, ymin=qPCR_DCAA$`RQ Min`, ymax=qPCR_DCAA$`RQ Max`), width=0.2, size=0.5, color="black")
 print(Plot_SD)
 
-Plot_SD_E <- Plot_SD + scale_x_discrete(labels=c("SS 0 mM", "SS 80 mM", "SS 100 mM", "SS 126 mM", "SS 160 mM", "SSH 0 MM", "SSH 80 mM", "SSH 100 mM", "SSH 126 mM", "SSH 160 mM", "SS 0 mM", "SS 80 mM", "SS 100 mM", "SS 126 mM", "SS 160 mM")) 
+Plot_SD_E <- Plot_SD + scale_x_discrete(labels=c("SS 0 uM", "SS 3.4 uM", "SS 4.8 uM", "SS 6.9 uM", "SS 10 uM", "SSH 0 uM", "SSH 3.4 uM", "SSH 4.8 uM", "SSH 6.9 uM", "SSH 10 uM", "SS 0 muM", "SS 3.4 uM", "SS 4.8 uM", "SS 6.9 uM", "SS 10 uM")) 
 print(Plot_SD_E)
 
 Plot_SD_E_L <- Plot_SD_E + scale_fill_discrete(name = "Cell Type", labels = c("3T3 (WT)", "BCC"))  
