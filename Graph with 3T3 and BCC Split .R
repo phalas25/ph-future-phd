@@ -147,7 +147,7 @@ print(Plot_SD)
 Plot_SD_E <- Plot_SD + scale_x_discrete(labels=c("0 mM", "80 mM", "100 mM", "126 mM", "160 mM", "0 mM", "80 mM", "100 mM", "126 mM", "160 mM")) 
 print(Plot_SD_E)
 
-Plot_SD_E_L <- Plot_SD_E + scale_fill_discrete(name = "Cell Type", labels = c("SS", "HH SS"))  
+Plot_SD_E_L <- Plot_SD_E + scale_fill_discrete(name = "Media Type", labels = c("SS", "HH SS"))  
 print(Plot_SD_E_L)
 
 #BCC Plot Here
