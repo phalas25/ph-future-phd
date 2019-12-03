@@ -11,11 +11,11 @@ library(ggplot2)
 library(dplyr)
 
 #Import Excel data using import dataset on the right side of the screen, copy the way to read it from the console and then rename the file to something simpler
-X11_27_19_Cobi_Combo <- read_excel("11_27_19_Cobi_Combo.xlsx")
-View(X11_27_19_Cobi_Combo)
+X12_3_19_Cobi_Combo <- read_excel("12_3_19_Cobi_Combo.xlsx")
+View(X12_3_19_Cobi_Combo)
 #Paiges laptop location
 #X11_18_DCAA_Combo <- read_excel("ph-future-phd/ph-future-phd/11_18_DCAA_Combo.xlsx")
-qPCR_raw <- X11_27_19_Cobi_Combo 
+qPCR_raw <- X12_3_19_Cobi_Combo
 
 #Check that the file is correct
 print(qPCR_raw)
@@ -169,7 +169,7 @@ print(Plot_SD)
 #Rearrange sample names if necessary
 colnames(BCC)
 qPCR_DCAA_2 <- select(BCC, "Sample.Name", "avgRQ") 
-qPCR_DCAA_2$Sample.Name <- factor(BCC$Sample.Name, levels = c("BCC SS 0 mM DCAA", "BCC SS 80 mM DCAA", "BCC SS 100 mM DCAA", "BCC SS 126 mM DCAA", "BCC SS 160 mM DCAA"))
+qPCR_DCAA_2$Sample.Name <- factor(BCC$Sample.Name, levels = c("BCC SS 0 nM Cobi", "BCC SS 4.8 nM Cobi", "BCC SS 12.8 nM Cobi", "BCC SS 34.9 nM Cobi", "BCC SS 100 nM Cobi"))
 print(qPCR_DCAA_2)
 print(qPCR_DCAA_2)
 
@@ -179,8 +179,8 @@ Plot <- ggplot() + geom_col(data = qPCR_DCAA_2, aes(x = qPCR_DCAA_2$Sample.Name,
 print(Plot)
 
 #Add titles to axis as well as graph (for rearrange)
-Plot <- Plot + ggtitle("BCC GLI1 Expression with PDHK Inhibitor") +
-  xlab("Concentration Dichloroacetic Acid") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + theme(legend.position = "none") + theme(axis.text.x = element_text(size=10, angle=90),axis.title=element_text(size=12,face="bold")) 
+Plot <- Plot + ggtitle("BCC GLI1 Expression with MAP2K1/MEK1 Inhibitor") +
+  xlab("Concentration Cobimetinib") + ylab("Fold Change") + theme_classic() + labs(fill = "Sample Name") + theme(legend.position = "none") + theme(axis.text.x = element_text(size=10, angle=90),axis.title=element_text(size=12,face="bold")) 
 print(Plot)
 
 
@@ -189,7 +189,7 @@ Plot_SD <- Plot + geom_errorbar(data = BCC, mapping=aes(x=BCC$Sample.Name, ymin=
 print(Plot_SD)
 
 #Rename legend
-Plot_SD_E <- Plot_SD + scale_x_discrete(labels=c("SS 0 mM", "SS 80 mM", "SS 100 mM", "SS 126 mM", "SS 160 mM", "SSH 0 nM")) 
+Plot_SD_E <- Plot_SD + scale_x_discrete(labels=c("SS 0 nM", "SS 4.8 nM", "SS 12.8 nM", "SS 34.9 nM", "SS 100 nM")) 
 print(Plot_SD_E)
 
 
