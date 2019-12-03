@@ -169,7 +169,7 @@ print(Plot_SD)
 #Rearrange sample names if necessary
 colnames(BCC)
 qPCR_DCAA_2 <- select(BCC, "Sample.Name", "avgRQ") 
-qPCR_DCAA_2$Sample.Name <- factor(BCC$Sample.Name, levels = c("BCC SS  0 uM Zinc", "BCC SS 3.4 uM Zinc", "BCC SS 4.87 uM Zinc", "BCC SS 6.9 uM Zinc", "BCC SS 10 uM Zinc"))
+qPCR_DCAA_2$Sample.Name <- factor(BCC$Sample.Name, levels = c("BCC SS 0 uM Zinc", "BCC SS 3.4 uM Zinc", "BCC SS 4.8 uM Zinc", "BCC SS 6.9 uM Zinc", "BCC SS 10 uM Zinc"))
 print(qPCR_DCAA_2)
 print(qPCR_DCAA_2)
 
